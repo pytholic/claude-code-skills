@@ -1,0 +1,10 @@
+# Ignore all
+/*
+
+# Track these
+!skills/
+!agents/
+!CLAUDE.md
+!settings.json
+!.gitignore
+!README.md

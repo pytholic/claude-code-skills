@@ -2,6 +2,11 @@ Behavioral guidelines to reduce common LLM coding mistakes. Merge with project-s
 
 **Tradeoff:** These guidelines bias toward caution over speed. For trivial tasks, use judgment.
 
+## 0. Context
+- Python-focused ML/AI engineer on macOS (South Korea)
+- Default stack: .venv, pytest, ruff + pyright, pyproject.toml, Python 3.12+ type syntax
+- Planning-first: requirements → architecture → components → code
+
 ## 1. Think Before Coding
 
 **Don't assume. Don't hide confusion. Surface tradeoffs.**
@@ -58,11 +63,6 @@ For multi-step tasks, state a brief plan:
 
 Strong success criteria let you loop independently. Weak criteria ("make it work") require constant clarification.
 
-## 5. Python Development
-
-- Follow my `python-dev` conventions
+## 5. Miscellaneous
 - Always use .venv if available
-- Prefer planning before implementation (if necessary)
-
-## 6. Miscellaneous
-- Always use Context7 MCP when I need library/API documentation, code generation, setup or configuration steps without me having to explicitly ask.
+- Always use Context7 MCP for library/API docs without being asked
