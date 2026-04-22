@@ -1,0 +1,53 @@
+{
+  "name": "claude-skills",
+  "description": "Personal Claude Code skill library by pytholic — specialized workflows for Python development, debugging, code review, LLM engineering, and more.",
+  "publisher": "pytholic",
+  "repository": "https://github.com/pytholic/claude-skills",
+  "skills": [
+    {
+      "name": "code-review",
+      "description": "Reviews code changes for quality, correctness, and adherence to project conventions before commits or PRs. Checks for SOLID violations, DRY/YAGNI issues, missing tests, type safety, security concerns, and style compliance.",
+      "path": "code-review"
+    },
+    {
+      "name": "codebase-research",
+      "description": "Navigate, search, and map codebases efficiently to answer structural and locational questions. Produces ranked, synthesized answers about code organization, symbol usage, and architecture.",
+      "path": "codebase-research"
+    },
+    {
+      "name": "explain-code",
+      "description": "Explains code with analogies, diagrams, and step-by-step walkthroughs. Matches depth to the question — short for quick questions, layered for deep dives.",
+      "path": "explain-code"
+    },
+    {
+      "name": "llm-dev",
+      "description": "Expert guidance for LLM development — architectures, training, inference, RAG systems, agentic workflows, evals, tool use, and production applications.",
+      "path": "llm-dev"
+    },
+    {
+      "name": "playwright-cli",
+      "description": "Automate browser interactions, test web pages, and work with Playwright tests.",
+      "path": "playwright-cli"
+    },
+    {
+      "name": "python-dev",
+      "description": "Expert Python development workflow biased toward simplicity and surgical changes. Applies OOP patterns only when complexity justifies them. Uses Python 3.13+, ruff, pyright, pytest, pyproject.toml.",
+      "path": "python-dev"
+    },
+    {
+      "name": "systematic-debugging",
+      "description": "Language-agnostic four-phase debugging methodology with root cause analysis. Emphasizes NO FIXES WITHOUT ROOT CAUSE FIRST.",
+      "path": "systematic-debugging"
+    },
+    {
+      "name": "task-handover",
+      "description": "Create a structured handover document so the next agent or engineer can resume work with zero prior context. Produces a single HANDOVER.md that survives session boundaries.",
+      "path": "task-handover"
+    },
+    {
+      "name": "write-tests",
+      "description": "Write focused pytest tests covering critical paths, edge cases, and error handling. Avoids redundant tests that bloat the codebase.",
+      "path": "write-tests"
+    }
+  ]
+}
