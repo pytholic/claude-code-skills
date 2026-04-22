@@ -1,0 +1,93 @@
+{
+  "name": "pytholic-skills",
+  "owner": {
+    "name": "Raja Haseeb",
+    "email": "rajahaseeb147@gmail.com"
+  },
+  "metadata": {
+    "description": "Personal Claude Code skill library — specialized workflows for Python development, debugging, code review, LLM engineering, and more.",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "all",
+      "description": "All skills bundled together — code review, codebase research, code explanation, LLM dev, Playwright, Python dev, debugging, task handover, and test writing.",
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./code-review",
+        "./codebase-research",
+        "./explain-code",
+        "./llm-dev",
+        "./playwright-cli",
+        "./python-dev",
+        "./systematic-debugging",
+        "./task-handover",
+        "./write-tests"
+      ]
+    },
+    {
+      "name": "code-review",
+      "description": "Reviews code changes for quality, correctness, and adherence to project conventions before commits or PRs.",
+      "source": "./",
+      "strict": false,
+      "skills": ["./code-review"]
+    },
+    {
+      "name": "codebase-research",
+      "description": "Navigate, search, and map codebases efficiently to answer structural and locational questions.",
+      "source": "./",
+      "strict": false,
+      "skills": ["./codebase-research"]
+    },
+    {
+      "name": "explain-code",
+      "description": "Explains code with analogies, diagrams, and step-by-step walkthroughs.",
+      "source": "./",
+      "strict": false,
+      "skills": ["./explain-code"]
+    },
+    {
+      "name": "llm-dev",
+      "description": "Expert guidance for LLM development — architectures, training, inference, RAG systems, agentic workflows, evals, and production applications.",
+      "source": "./",
+      "strict": false,
+      "skills": ["./llm-dev"]
+    },
+    {
+      "name": "playwright-cli",
+      "description": "Automate browser interactions, test web pages, and work with Playwright tests.",
+      "source": "./",
+      "strict": false,
+      "skills": ["./playwright-cli"]
+    },
+    {
+      "name": "python-dev",
+      "description": "Expert Python development workflow biased toward simplicity and surgical changes. Uses Python 3.13+, ruff, pyright, pytest, pyproject.toml.",
+      "source": "./",
+      "strict": false,
+      "skills": ["./python-dev"]
+    },
+    {
+      "name": "systematic-debugging",
+      "description": "Language-agnostic four-phase debugging methodology with root cause analysis. No fixes without root cause first.",
+      "source": "./",
+      "strict": false,
+      "skills": ["./systematic-debugging"]
+    },
+    {
+      "name": "task-handover",
+      "description": "Create a structured handover document so the next agent or engineer can resume work with zero prior context.",
+      "source": "./",
+      "strict": false,
+      "skills": ["./task-handover"]
+    },
+    {
+      "name": "write-tests",
+      "description": "Write focused pytest tests covering critical paths, edge cases, and error handling.",
+      "source": "./",
+      "strict": false,
+      "skills": ["./write-tests"]
+    }
+  ]
+}

@@ -11,10 +11,10 @@ Personal Claude Code skill library — specialized workflows for Python developm
 ## Install a single skill
 
 ```
-/plugin install skill-name@pytholic/claude-skills
+/plugin install python-dev@pytholic/claude-skills
 ```
 
-Replace `skill-name` with any skill listed below.
+Replace `python-dev` with any skill name from the table below.
 
 ## Available skills
 
