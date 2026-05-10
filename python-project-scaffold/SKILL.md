@@ -68,18 +68,10 @@ project-name/
 │   ├── pull_request_template.md
 │   └── ISSUE_TEMPLATE/
 ├── docs/                        # mkdocs source (if docs enabled)
-├── package_name/
-│   ├── __init__.py
-│   ├── core/
-│   │   ├── __init__.py
-│   │   ├── interfaces.py        # Protocols and contracts
-│   │   ├── models.py            # Domain models
-│   │   └── exceptions.py        # Domain exceptions
-│   ├── services/                # Business logic
-│   │   └── __init__.py
-│   ├── infrastructure/          # External adapters
-│   │   └── __init__.py
-│   └── config.py                # Configuration loading
+├── src/
+│   └── PACKAGE_NAME/
+│       ├── __init__.py
+│       └── config.py            # Configuration loading
 ├── tests/
 │   ├── conftest.py
 │   ├── unit/
@@ -99,6 +91,8 @@ project-name/
 ├── README.md
 └── pyproject.toml
 ```
+
+Start flat — add subdirectories (e.g. `tools/`, `models/`, `prompts/`) only as the project grows. Do not pre-create `core/`, `services/`, or `infrastructure/` directories.
 
 For applications, also generate `main.py` at the root.
 
@@ -194,16 +188,21 @@ requires = ["hatchling", "hatch-vcs"]
 build-backend = "hatchling.build"
 
 [tool.hatch.build]
-packages = ["PACKAGE_NAME"]
+packages = ["src/PACKAGE_NAME"]
 
 [tool.hatch.version]
 source = "vcs"
 
 [tool.hatch.build.hooks.vcs]
-version-file = "PACKAGE_NAME/_version.py"
+version-file = "src/PACKAGE_NAME/_version.py"
 
-[tool.uv]
-package = true
+[tool.interrogate]
+fail-under = 100
+exclude = ["tests", "build", "dist", "tmp", ".venv", ".ruff_cache"]
+ignore-module = true
+ignore-init-method = true
+verbose = 2
+omit-covered-files = true
 
 [tool.ruff]
 line-length = 100
@@ -254,12 +253,12 @@ filterwarnings = ["ignore::DeprecationWarning", "ignore::UserWarning"]
 
 [tool.coverage.run]
 omit = [
-    "PACKAGE_NAME/config.py",
-    "PACKAGE_NAME/logging.py",
+    "src/PACKAGE_NAME/config.py",
+    "src/PACKAGE_NAME/logging.py",
 ]
 
 [tool.pyright]
-include = ["PACKAGE_NAME"]
+include = ["src/PACKAGE_NAME"]
 pythonVersion = "3.13"
 typeCheckingMode = "strict"
 reportMissingTypeArgument = "warning"
@@ -293,7 +292,7 @@ test:
 	uv run pytest -x --tb=no -rs
 
 test-cov:
-	uv run pytest -x --cov=PACKAGE_NAME --cov-report=term-missing
+	uv run pytest -x --cov=src/PACKAGE_NAME --cov-report=term-missing
 
 test-unit:
 	uv run pytest -v --tb=no -ra tests/unit/
@@ -593,6 +592,9 @@ Stop and correct if you catch yourself doing any of the following:
 - Skipping pyright or ruff config in `pyproject.toml`
 - Using `requirements.txt` instead of `pyproject.toml` with dependency groups
 - Creating a `setup.py` or `setup.cfg` instead of `pyproject.toml`
+- Putting the package directly at the root instead of under `src/`
+- Pre-creating `core/`, `services/`, or `infrastructure/` directories before they're needed
+- Using static `version = "0.1.0"` instead of `dynamic = ["version"]` with `hatch-vcs`
 - Omitting `.pre-commit-config.yaml`
 - Using `pip` or `poetry` instead of `uv`
 - Putting test configuration in a separate `pytest.ini` instead of `pyproject.toml`
