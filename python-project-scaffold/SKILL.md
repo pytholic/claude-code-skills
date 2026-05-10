@@ -44,6 +44,9 @@ Before generating any files, confirm:
 3. **Project type** — Library or application (see triage gate)
 4. **Key dependencies** — Any known runtime dependencies
 5. **Extras** — Docs (mkdocs), Docker, CI (GitHub Actions), or none
+6. **Author full name** — Used in `pyproject.toml` authors field
+7. **Author email** — Used in `pyproject.toml` authors field
+8. **GitHub username** — Used as default assignee in issue templates and in file signatures (leave blank to omit)
 
 ---
 
@@ -60,7 +63,8 @@ project-name/
 │   └── tasks/
 │       └── .gitkeep
 ├── .github/
-│   ├── workflows/               # CI pipelines
+│   ├── workflows/
+│   │   └── lint.yml             # Runs pre-commit on PR-changed files
 │   ├── pull_request_template.md
 │   └── ISSUE_TEMPLATE/
 ├── docs/                        # mkdocs source (if docs enabled)
@@ -101,6 +105,18 @@ For applications, also generate `main.py` at the root.
 ---
 
 ## Phase 3: File Templates
+
+### Signature Rule
+
+Every generated file that contains a non-empty docstring or header comment must include the following signature line:
+
+```
+Created by @GITHUB_USERNAME on YYYY.MM.DD
+```
+
+- **Python `.py` files** — add it as the last line of the module-level docstring.
+- **YAML/workflow files** — add it as a comment on the second line, after a one-line description comment.
+- Omit the signature if the user did not provide a GitHub username.
 
 ### CLAUDE.md
 
@@ -306,10 +322,14 @@ help:
 
 ### .pre-commit-config.yaml
 
+> **Before generating this file**, check the latest stable release tag for each repo below. The versions hardcoded here are a baseline — use them only if you cannot confirm a newer release. Check via `gh release list -R <owner>/<repo> --limit 1` or a quick web search for each hook repo.
+
+
+
 ```yaml
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.5.0
+    rev: v6.0.0
     hooks:
       - id: trailing-whitespace
       - id: end-of-file-fixer
@@ -334,32 +354,21 @@ repos:
         additional_dependencies: [setuptools]
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.11.13
+    rev: v0.15.12
     hooks:
       - id: ruff
         args: [--fix, --config, pyproject.toml]
       - id: ruff-format
         args: [--config, pyproject.toml]
 
-  - repo: https://github.com/executablebooks/mdformat
-    rev: 0.7.21
-    hooks:
-      - id: mdformat
-        args: ["--number"]
-        exclude: "^docs/"
-        additional_dependencies:
-          - mdformat-gfm
-          - mdformat-tables
-          - mdformat_frontmatter
-
   - repo: https://github.com/codespell-project/codespell
-    rev: v2.1.0
+    rev: v2.4.0
     hooks:
       - id: codespell
         args: ["--skip=*.lock,docs/site/assets/*"]
 
   - repo: https://github.com/adrienverge/yamllint
-    rev: v1.29.0
+    rev: v1.38.0
     hooks:
       - id: yamllint
         args: ["-c=.yamllint"]
@@ -397,6 +406,148 @@ rules:
 Ensure `.hac/` is tracked in git (it should be). Task files contain project
 knowledge that should persist across contributors and sessions. Do NOT gitignore `.hac/`.
 
+### .github/pull_request_template.md
+
+```markdown
+# What is the type of this PR?
+
+- [ ] Refactor (refactored code that neither fixes a bug nor adds a feature)
+- [ ] Feature (non-breaking change which adds functionality)
+- [ ] Bug fix (non-breaking change which fixes an issue)
+- [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)
+- [ ] Test (including new or correcting previous tests)
+- [ ] Style (changes to code formatting and styling)
+- [ ] Optimization (performance improvements)
+- [ ] Documentation Update (updates to the documentation (i.e. README, comments, docstrings, etc.))
+- [ ] Revert (reverts a previous commit)
+
+# Motivation and Context
+
+**Why is this change required? What problem does it solve?**
+
+**If it fixes an open issue, please link to the issue here.**
+
+# Modifications
+
+The following changes were made in this PR.
+
+- Change A
+- Change B
+
+# How Has This Been Tested?
+
+Please describe the tests that you ran to verify your changes. Provide instructions so we can reproduce.
+Please also list any relevant details for your test configuration.
+
+- Test A
+- Test B
+
+# Checklist
+
+- [ ] My code follows the style guidelines of this project
+- [ ] I have performed a self-review of my code
+- [ ] I have commented my code, particularly in hard-to-understand areas
+- [ ] I have made corresponding changes to the documentation
+- [ ] My changes generate no new warnings
+- [ ] I have added tests that prove my fix is effective or that my feature works
+- [ ] New and existing unit tests pass locally with my changes
+- [ ] Any dependent changes have been merged and published in downstream modules
+
+# Notes
+
+Add any additional notes for the reviewers.
+```
+
+### .github/ISSUE_TEMPLATE/bug_report.md
+
+```markdown
+---
+name: Bug report
+about: Create a report to help us improve
+title: '[BUG] Title'
+labels: bug
+assignees: 'GITHUB_USERNAME'
+---
+
+**Describe the bug**
+A clear and concise description of what the bug is.
+
+**To Reproduce**
+Steps to reproduce the behavior:
+
+1. Go to '...'
+2. Click on '....'
+3. Scroll down to '....'
+4. See error
+
+**Expected behavior**
+A clear and concise description of what you expected to happen.
+
+**Screenshots**
+If applicable, add screenshots to help explain your problem.
+
+**Additional context**
+Add any other context about the problem here.
+```
+
+### .github/ISSUE_TEMPLATE/feature_request.md
+
+```markdown
+---
+name: Feature request
+about: Suggest an idea for this project
+title: '[FEATURE] Title'
+labels: enhancement
+assignees: 'GITHUB_USERNAME'
+---
+
+**Is your feature request related to a problem? Please describe.**
+A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
+
+**Describe the solution you'd like**
+A clear and concise description of what you want to happen.
+
+**Additional context**
+Add any other context or screenshots about the feature request here.
+```
+
+> If the user did not provide a GitHub username, omit the `assignees` line entirely from both issue templates.
+
+### .github/workflows/lint.yml
+
+Always include this. It runs pre-commit on PR-changed files only (fast) and skips the `no-commit-to-branch` hook which doesn't apply in CI.
+
+```yaml
+# Linting workflow — runs pre-commit on PR-changed files only
+# Created by @GITHUB_USERNAME on YYYY.MM.DD
+
+name: Lint
+
+on:
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ${{ github.workflow }}-pr-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+      - name: Run pre-commit on PR changed files
+        uses: pre-commit/action@v3.0.1
+        with:
+          extra_args: --files $(git diff --name-only --diff-filter=ACMRT origin/${{ github.base_ref }} HEAD)
+        env:
+          SKIP: no-commit-to-branch
+```
+
 ---
 
 ## Phase 4: Post-Scaffold Steps
@@ -424,10 +575,11 @@ Report any failures and fix before declaring scaffold complete.
 
 ## Customization Notes
 
-- **Replace all placeholders**: `PROJECT_NAME`, `PACKAGE_NAME`, `PROJECT_DESCRIPTION`, `AUTHOR`, `EMAIL`
+- **Replace all placeholders**: `PROJECT_NAME`, `PACKAGE_NAME`, `PROJECT_DESCRIPTION`, `AUTHOR`, `EMAIL`, `GITHUB_USERNAME`
 - **Adapt ruff rules**: Add or remove lint rules based on project needs. The default set is opinionated but covers the most common issues.
 - **Docs are optional**: Only generate `docs/` and `mkdocs.yml` if the user requests documentation.
-- **CI is optional**: Only generate `.github/workflows/` if the user requests CI setup.
+- **`lint.yml` is always included**: It's lightweight (runs pre-commit on changed files only) and universally useful. Always generate it.
+- **Additional CI workflows are optional**: Only generate `test.yml`, `publish.yml`, etc. if the user requests them.
 - **e2e tests are optional**: Only create `tests/e2e/` if the project has external dependencies worth testing end-to-end.
 - **`.hac/` is always created**: Delegate to the `hac-init` skill. Do not duplicate HAC templates here.
 
