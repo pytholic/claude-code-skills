@@ -40,6 +40,7 @@ Replace `python-dev` with any skill name from the table below.
 | `excalidraw-diagram` | Generate Excalidraw diagrams from text descriptions |
 | `hac-init` | Initialize a Human-Agent Context (HAC) directory with templates and bootstrapping process |
 | `python-project-scaffold` | Scaffold a new Python project with production-ready tooling and structure |
+| `help` | User-facing cheat sheet of all personal skills — invoke with `/help` |
 
 ## Usage
 

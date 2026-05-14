@@ -232,7 +232,14 @@ After generating files:
 1. Replace `PROJECT_NAME` and `PROJECT_DESCRIPTION` placeholders in `status.md` and `decisions.md`.
 2. If prior plan files exist (`.claude/*.md`, `TODO.md`, etc.), offer to migrate them into `.hac/tasks/`.
 3. Ensure `.hac/` is **not** in `.gitignore` — it must be tracked in git.
-4. Confirm to the user what was created and how the agent will use it going forward.
+4. **Update the project's `CLAUDE.md` with the HAC protocol** — this is mandatory, not optional.
+
+   Without this step, future Claude sessions will not know `.hac/` exists and will not read or update it automatically. Every session would require manual prompting.
+
+   - If a project `CLAUDE.md` already exists: append the HAC section from `hac-init/README.md` to it.
+   - If no project `CLAUDE.md` exists: create one containing only that section.
+
+5. Confirm to the user what was created, and remind them that the HAC section has been added to `CLAUDE.md` so future sessions will pick it up automatically.
 
 ---
 
