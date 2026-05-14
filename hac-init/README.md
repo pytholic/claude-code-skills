@@ -1,3 +1,16 @@
+# hac-init
+
+Bootstraps the `.hac/` (Human-Agent Context) directory in any project — the shared context layer that lets any human or agent understand a project's current state in under 30 seconds.
+
+## How CLAUDE.md gets the HAC protocol
+
+Claude needs the HAC protocol in `CLAUDE.md` to automatically read and update `.hac/` during sessions. There are two ways this happens:
+
+- **Per-project (automatic):** When you run the `hac-init` skill on a project, Claude checks whether the HAC section is already present and adds it to the project's `CLAUDE.md` if not.
+- **Global (manual, one-time):** To have HAC awareness in every project without relying on a project-level `CLAUDE.md`, copy the section below into your global `~/.claude/CLAUDE.md` once.
+
+---
+
 Add the following to your global `CLAUDE.md` file:
 
 ## HAC — Human-Agent Context (.hac/ directory)

@@ -236,10 +236,12 @@ After generating files:
 
    Without this step, future Claude sessions will not know `.hac/` exists and will not read or update it automatically. Every session would require manual prompting.
 
-   - If a project `CLAUDE.md` already exists: append the HAC section from `hac-init/README.md` to it.
-   - If no project `CLAUDE.md` exists: create one containing only that section.
+   First, check whether the HAC section is already present:
+   - Search the project `CLAUDE.md` (and the global `~/.claude/CLAUDE.md`) for the string `".hac/"` or `"HAC"`.
+   - If the section **already exists** in either file: skip this step — do not add a duplicate.
+   - If the section is **absent**: append the HAC section from `hac-init/README.md` to the project's `CLAUDE.md`. Create the file if it does not exist.
 
-5. Confirm to the user what was created, and remind them that the HAC section has been added to `CLAUDE.md` so future sessions will pick it up automatically.
+5. Confirm to the user what was created. If the HAC section was added to `CLAUDE.md`, say so. If it was already present (globally or in the project), say that too so the user knows it was checked.
 
 ---
 
