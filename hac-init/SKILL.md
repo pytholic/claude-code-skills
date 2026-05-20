@@ -79,6 +79,7 @@ Single-glance lookup across everything tracked in this project.
 
 ### Tasks
 
+<!-- Rows ordered newest-first by completion date -->
 | Task | Status | Priority | Owner | File | Updated |
 |------|--------|----------|-------|------|---------|
 | _No tasks yet_ | | | | | |
@@ -109,6 +110,7 @@ Single-glance lookup across everything tracked in this project.
 Active, blocked, and in-review work. Completed tasks live only in the
 master index (`README.md`). This table shows what needs attention now.
 
+<!-- Rows ordered by priority (P0 → P1 → P2); within same priority: Active before Blocked before Review -->
 | Task | Status | Priority | Owner | Updated |
 |------|--------|----------|-------|---------|
 | _No active tasks_ | | | | |
@@ -141,6 +143,7 @@ master index (`README.md`). This table shows what needs attention now.
 Captured during sessions for later consideration. Promote to a task
 when the need becomes concrete.
 
+<!-- Rows ordered newest-first by Date -->
 | Idea | Origin | Date | Notes |
 |------|--------|------|-------|
 | _Nothing parked_ | | | |
