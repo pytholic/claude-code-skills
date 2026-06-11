@@ -41,6 +41,7 @@ Replace `python-dev` with any skill name from the table below.
 | `hac-init` | Initialize a Human-Agent Context (HAC) directory with templates and bootstrapping process |
 | `python-project-scaffold` | Scaffold a new Python project with production-ready tooling and structure |
 | `help` | User-facing cheat sheet of all personal skills — invoke with `/help` |
+| `goal-workflow` | Implement a spec fully, verify each requirement with parallel agents, and produce a report |
 
 ## Usage
 
