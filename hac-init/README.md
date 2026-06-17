@@ -52,12 +52,13 @@ If the user asks to "set up hac", "add .hac", "set up working memory", or you be
 
 | From | To | Trigger |
 |------|----|---------|
-| 🟢 Active | 🟡 Review | Implementation complete, needs human eyes |
-| 🟢 Active | 🔴 Blocked | External dependency or unresolved question blocks progress |
-| 🟡 Review | ⚪ Done | Human approves |
+| 🟢 Active | ⚪ Done | Agent or user judges the work complete (e.g. before opening a PR) |
+| 🟢 Active | 🔴 Blocked | External dependency, unresolved question, or pending review blocks progress |
 | 🔴 Blocked | 🟢 Active | Blocker resolved |
 | 🔵 Parked | 🟢 Active | Idea promoted — create a task file, remove from Parked Ideas table |
 | Any | ⚪ Done | Move the row from `status.md` overview to `README.md` master index |
+
+Done is a local judgment, not an external approval. `.hac/` does not mirror PR/review state — the PR is its own review surface. If a task needs human sign-off before it can be considered complete, keep it 🔴 Blocked ("blocked on review of X") rather than reintroducing a review state.
 
 ### Wrap-Up
 

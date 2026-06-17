@@ -107,10 +107,10 @@ Single-glance lookup across everything tracked in this project.
 
 ## Overview
 
-Active, blocked, and in-review work. Completed tasks live only in the
+Active, blocked, and parked work. Completed tasks live only in the
 master index (`README.md`). This table shows what needs attention now.
 
-<!-- Rows ordered by priority (P0 → P1 → P2); within same priority: Active before Blocked before Review -->
+<!-- Rows ordered by priority (P0 → P1 → P2); within same priority: Active before Blocked before Parked -->
 | Task | Status | Priority | Owner | Updated |
 |------|--------|----------|-------|---------|
 | _No active tasks_ | | | | |
@@ -118,19 +118,22 @@ master index (`README.md`). This table shows what needs attention now.
 ### Status Labels
 
 - 🟢 **Active** — Currently being worked on
-- 🟡 **Review** — Work done, needs human review
-- 🔴 **Blocked** — Waiting on external dependency or decision
+- 🔴 **Blocked** — Waiting on an external dependency, decision, or review
 - 🔵 **Parked** — Noted for future; not currently scheduled
-- ⚪ **Done** — Completed and verified → move row to README.md master index
+- ⚪ **Done** — Author (agent or human) judges the work complete (e.g. before opening a PR) → move row to README.md master index
 
 ### Transitions
 
-- 🟢 → 🟡 when implementation is complete and needs human eyes
-- 🟢 → 🔴 when an external dependency or unresolved question blocks progress
-- 🟡 → ⚪ when the human approves
+- 🟢 → ⚪ when the agent or user judges the work complete
+- 🟢 → 🔴 when an external dependency, unresolved question, or pending review blocks progress
 - 🔴 → 🟢 when the blocker is resolved
 - 🔵 → 🟢 when the idea is promoted to active work (create a task file)
 - Any → ⚪ moves the row from this table to the README.md master index
+
+Done is a local judgment, not an external approval. `.hac/` does not mirror
+PR/review state — the PR is its own review surface. If a task needs a human
+to sign off before it can be considered complete, keep it 🔴 Blocked
+("blocked on review of X") rather than inventing a separate review state.
 
 ### Priority Levels
 
@@ -257,4 +260,5 @@ Stop and correct if you catch yourself doing any of the following:
 - Putting `.hac/` in `.gitignore`
 - Duplicating the full task list in both `README.md` and `status.md` (README = master index of all tasks including done; status.md = dashboard of active/blocked/parked only)
 - Editing or removing past entries in `decisions.md` (it is append-only)
+- Mirroring PR/review state in `.hac/` or reintroducing a review status — Done is a local judgment; use 🔴 Blocked for "awaiting review"
 - Adding files beyond the four-item structure without explicit user request

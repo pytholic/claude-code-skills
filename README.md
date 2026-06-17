@@ -24,6 +24,15 @@ Or install a single skill:
 
 Replace `python-dev` with any skill name from the table below.
 
+### Update
+```
+# 1. Refresh the marketplace to pick up new versions (one-time per update)
+/plugin marketplace update pytholic-skills
+
+# 2. Reinstall to pull the latest version of the skill
+/plugin install hac-init@pytholic-skills
+```
+
 ## Available skills
 
 | Skill | Description |
