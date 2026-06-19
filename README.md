@@ -37,7 +37,7 @@ Replace `python-dev` with any skill name from the table below.
 
 | Skill | Description |
 |---|---|
-| `code-review` | Structured review for quality, correctness, SOLID/DRY/YAGNI, type safety, and security |
+| `python-code-review` | Structured review for quality, correctness, SOLID/DRY/YAGNI, type safety, and security |
 | `codebase-research` | Navigate and map codebases — find symbols, trace dependencies, answer architecture questions |
 | `explain-code` | Step-by-step walkthroughs with analogies and diagrams, depth matched to the question |
 | `llm-dev` | LLM architectures, RAG, fine-tuning, agentic workflows, evals, and production deployment |
@@ -51,6 +51,7 @@ Replace `python-dev` with any skill name from the table below.
 | `python-project-scaffold` | Scaffold a new Python project with production-ready tooling and structure |
 | `help` | User-facing cheat sheet of all personal skills — invoke with `/help` |
 | `goal-workflow` | Implement a spec fully, verify each requirement with parallel agents, and produce a report |
+| `interview-me` | One-question-at-a-time intent extraction for underspecified asks, until ~95% confidence |
 
 ## Usage
 
