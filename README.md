@@ -52,6 +52,7 @@ Replace `python-dev` with any skill name from the table below.
 | `help` | User-facing cheat sheet of all personal skills — invoke with `/help` |
 | `goal-workflow` | Implement a spec fully, verify each requirement with parallel agents, and produce a report |
 | `interview-me` | One-question-at-a-time intent extraction for underspecified asks, until ~95% confidence |
+| `pr-description` | Generate a minimal, clear PR description from the branch diff and the repo's PR template |
 
 ## Usage
 
