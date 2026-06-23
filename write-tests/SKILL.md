@@ -126,6 +126,44 @@ with patch("module.fn") as mock_fn:  # Don't do this
     ...
 ```
 
+- **Extract repeated mock objects into fixtures — don't rebuild the same configured mock in every test.**
+
+If the same mock object (same patch target + same attribute/return_value setup) appears in 3+ tests, define it once as a fixture in `conftest.py`. Tests that need different behavior override locally.
+
+```python
+# BAD — identical mock setup copy-pasted across tests
+def test_fetch_user(mocker):
+    mock_db = mocker.MagicMock()
+    mock_db.query.return_value.filter.return_value.first.return_value = User(id=1, name="Alice")
+    mocker.patch("myapp.service.db", mock_db)
+    ...
+
+def test_update_user(mocker):
+    mock_db = mocker.MagicMock()
+    mock_db.query.return_value.filter.return_value.first.return_value = User(id=1, name="Alice")
+    mocker.patch("myapp.service.db", mock_db)
+    ...
+
+# GOOD — shared fixture in conftest.py
+@pytest.fixture
+def mock_db(mocker: MockerFixture) -> MagicMock:
+    mock = mocker.MagicMock()
+    mock.query.return_value.filter.return_value.first.return_value = User(id=1, name="Alice")
+    mocker.patch("myapp.service.db", mock)
+    return mock
+
+def test_fetch_user(mock_db):
+    ...
+
+def test_update_user(mock_db):
+    ...
+
+# Override locally only when a test needs different behavior
+def test_fetch_missing_user(mock_db):
+    mock_db.query.return_value.filter.return_value.first.return_value = None
+    ...
+```
+
 ## Coverage Strategy
 
 Coverage is a smell test, not a target. Chase *valuable* coverage, not a number:
