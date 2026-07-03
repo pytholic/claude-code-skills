@@ -28,6 +28,16 @@ When in doubt, ask the user. Don't create `.hac/` silently on the first interact
 
 ---
 
+## Common Usage Patterns
+
+These are the everyday triggers for touching `.hac/` once it's bootstrapped — not just the initial setup:
+
+- **[Most common] Right before opening a PR** — when a task is done, do the Wrap-Up steps: flip the status to ⚪ Done, move the row from `status.md` to the `README.md` master index, and append a final session log entry.
+- **"Record this in HAC decisions"** — the user is flagging a decision they just made. Append it to `decisions.md` (Context / Choice / Why / Rejected) and add a row to the quick reference table and `README.md`.
+- **"Set up a HAC task for X"** (e.g. "Set up a HAC task for the analytics subagent DAP integration") — for a bit-complicated or multi-step task, create `.hac/tasks/<task-name>.md` from the task template and add a row to `status.md`'s overview table to track it going forward.
+
+---
+
 ## Phase 1: Gather Context
 
 Before generating files, collect:

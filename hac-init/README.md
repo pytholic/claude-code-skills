@@ -2,17 +2,60 @@
 
 Bootstraps the `.hac/` (Human-Agent Context) directory in any project — the shared context layer that lets any human or agent understand a project's current state in under 30 seconds.
 
+## User Guide
+
+Once `.hac/` is bootstrapped, you don't need to remember commands — just talk to Claude naturally. It reads and updates `.hac/` as part of normal session flow. Some common patterns:
+
+### Starting a Session
+
+Point Claude at the relevant task file:
+
+> "Read `.hac/status.md` and `.hac/tasks/subagent-delegation.md`, then continue where we left off."
+
+Claude orients itself from the file without needing any history repeated to it.
+
+### During a Session
+
+Claude updates `.hac/` automatically as work progresses (checklists, session log, discoveries). You can also ask explicitly:
+
+> "Update the task file with what we found today."
+
+### Tracking a New Task
+
+For anything multi-step or non-trivial:
+
+> "Set up a HAC task for the analytics subagent DAP integration."
+
+Claude creates `.hac/tasks/analytics-dap.md` from the template and adds it to `status.md`'s overview table.
+
+### Recording a Decision
+
+Whenever you land on an important architectural or strategic call, mid-session:
+
+> "Record this in HAC decisions."
+
+Claude appends a Context / Choice / Why / Rejected entry to `decisions.md` and adds a row to the quick reference tables.
+
+### Wrapping Up
+
+**[Most common]** — right before opening a PR, or whenever a task is done:
+
+> "Wrap up and update the HAC."
+
+Claude flips the task status to ⚪ Done, moves the row from `status.md` to the `README.md` master index, appends a final session log entry, and flags any blockers.
+
+---
+
 ## How CLAUDE.md gets the HAC protocol
 
 Claude needs the HAC protocol in `CLAUDE.md` to automatically read and update `.hac/` during sessions. There are two ways this happens:
 
 - **Per-project (automatic):** When you run the `hac-init` skill on a project, Claude checks whether the HAC section is already present and adds it to the project's `CLAUDE.md` if not.
-- **Global (manual, one-time):** To have HAC awareness in every project without relying on a project-level `CLAUDE.md`, copy the section below into your global `~/.claude/CLAUDE.md` once.
-
----
+- **Global (manual, one-time):** To have HAC awareness in every project without relying on a project-level `CLAUDE.md`, copy the block below into your global `~/.claude/CLAUDE.md` once.
 
 Add the following to your global `CLAUDE.md` file:
 
+````markdown
 ## HAC — Human-Agent Context (.hac/ directory)
 
 Projects may have a `.hac/` directory — a shared context layer between the human and the agent. It solves the "where were we?" problem across sessions. This section defines the **protocol** for reading and maintaining `.hac/` during sessions. For file templates and bootstrapping, use the `hac-init` skill.
@@ -66,3 +109,4 @@ Done is a local judgment, not an external approval. `.hac/` does not mirror PR/r
 - Move the completed row to the `README.md` master index.
 - Update the task file's metadata table status to `⚪ Done (YYYY-MM-DD)`.
 - Append a final session log entry.
+````
