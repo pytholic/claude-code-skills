@@ -3,9 +3,12 @@ name: task-scope-and-spec
 description: >
   Scope a loose engineering task into a tight, testable spec list. Use when the user
   gives background for a piece of work and wants the requirements narrowed down before
-  implementation. Trigger phrases include: "scope this", "what are the specs", "break
-  this down", "what's involved", "what would it take", "what's left for this task",
-  "port this to", "bring this logic to", and "spec this ticket/issue".
+  implementation. Trigger phrases include: "scope this", "what are the specs", "what's
+  involved", "what would it take", "what's left for this task", "port this to", "bring
+  this logic to", and "spec this ticket/issue". This skill defines WHAT must be true
+  when the work is done — it does not produce an implementation plan, task ordering, or
+  execution steps. For sequencing the specs into ordered, verifiable tasks, use
+  planning-and-task-decomposition instead.
 ---
 
 # task-scope-and-spec

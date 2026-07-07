@@ -54,6 +54,7 @@ Replace `python-dev` with any skill name from the table below.
 | `interview-me` | One-question-at-a-time intent extraction for underspecified asks, until ~95% confidence |
 | `pr-description` | Generate a minimal, clear PR description from the branch diff and the repo's PR template |
 | `task-scope-and-spec` | Scope a loose engineering task into a tight, testable spec list. |
+| `planning-and-task-decomposition` | Decompose a scoped goal into an ordered, verifiable implementation plan with checkpoints |
 
 ## Usage
 

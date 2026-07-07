@@ -1,6 +1,6 @@
 ---
 name: python-code-review
-description: Reviews Python code changes for quality, correctness, and adherence to project conventions before commits or PRs. Checks for SOLID violations, DRY/YAGNI issues, missing tests, type safety, security concerns, and style compliance. Use when reviewing diffs, preparing PRs, after implementing features, or when the user asks to review code. Python-specific — covers ruff, pyright, pytest, and modern Python 3.12+ idioms.
+description: Reviews Python code changes for quality, correctness, and adherence to project conventions before commits or PRs. Checks for SOLID violations, DRY/YAGNI issues, missing tests, type safety, security concerns, and style compliance. Use when reviewing diffs, preparing PRs, after implementing features, or when the user asks to review code. Python-specific — covers ruff, pyright, pytest, and modern Python 3.13+ idioms by default (falls back to the project's pyproject.toml `requires-python` floor if it pins something lower). For comment accuracy, silent-failure hunting, type-invariant design, or a simplification pass, use code-review's targeted agents instead.
 ---
 
 # Python Code Review
@@ -10,7 +10,7 @@ Thorough code review of recent Python changes. Focuses on what matters: correctn
 ## Step 1: Gather Context
 
 1. Run `git diff` to see unstaged changes (or `git diff --cached` for staged, or `git diff main...HEAD` for full branch diff)
-2. Read the project's `CLAUDE.md` and `pyproject.toml` for conventions (ruff rules, pyright config, test config)
+2. Read the project's `CLAUDE.md` and `pyproject.toml` for conventions (ruff rules, pyright config, test config, and the `requires-python` version floor)
 3. Read each changed file in full to understand surrounding context
 
 ## Step 2: Review (in priority order)
@@ -46,7 +46,9 @@ Thorough code review of recent Python changes. Focuses on what matters: correctn
 
 ### 2d. Python Quality
 
-- Type hints on all public interfaces (Python 3.12+ syntax: `str | None`, not `Optional[str]`)
+- Type hints on all public interfaces (Python 3.13+ syntax by default: `str | None`, not
+  `Optional[str]` — unless `pyproject.toml`'s `requires-python` pins an older floor, in
+  which case follow that floor instead)
 - Functions under 30 lines; if longer, suggest decomposition
 - Composition over inheritance
 - Context managers for resources, generators for memory efficiency
@@ -102,4 +104,8 @@ Output a structured review using this format:
 - Do not nitpick formatting that ruff would auto-fix.
 - Do not suggest adding comments/docstrings to code you didn't write.
 - If no issues found, say so. Don't invent problems.
+- This skill owns general quality and test coverage. For comment-rot, silent-failure
+  hunting, type-invariant design, or a simplification pass, use `code-review`'s targeted
+  agents (comment-analyzer / silent-failure-hunter / type-design-analyzer /
+  code-simplifier) instead of running both skills' general review together.
 - For the checklist, see [checklist.md](checklist.md).
