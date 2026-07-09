@@ -26,7 +26,7 @@ Use this checklist for systematic reviews. Not every item applies to every chang
 - [ ] Simplest solution that works (KISS)
 
 ## Python Quality
-- [ ] Type hints on all public signatures (3.12+ syntax)
+- [ ] Type hints on all public signatures (3.13+ syntax by default; fall back to the `requires-python` floor)
 - [ ] Functions under 30 lines
 - [ ] No `print()` — use structured logging
 - [ ] Google-style docstrings on public APIs
@@ -41,6 +41,17 @@ Use this checklist for systematic reviews. Not every item applies to every chang
 - [ ] Edge cases and error paths covered
 - [ ] No testing of framework internals or trivial code
 - [ ] Mocks only at boundaries
+
+## Tooling
+- [ ] `ruff check` and `ruff format --check` run on changed files; real findings reported
+- [ ] `pyright` (or project type checker) run on changed files; type errors reported
+
+## Comments & Docstrings
+- [ ] Comments in the diff are accurate (not stale or misleading)
+- [ ] No redundant comments restating the code
+- [ ] Verbose/awkward comments tightened to concise, natural phrasing
+- [ ] Docstrings on added modules/classes/functions are clear and intelligible
+- [ ] Overcomplicated or lengthy docstrings simplified to concise Google-style
 
 ## Style
 - [ ] Follows project ruff config (line length, import order, rules)

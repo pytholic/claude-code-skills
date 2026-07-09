@@ -1,6 +1,9 @@
 ---
 name: python-code-review
-description: Reviews Python code changes for quality, correctness, and adherence to project conventions before commits or PRs. Checks for SOLID violations, DRY/YAGNI issues, missing tests, type safety, security concerns, and style compliance. Use when reviewing diffs, preparing PRs, after implementing features, or when the user asks to review code. Python-specific — covers ruff, pyright, pytest, and modern Python 3.13+ idioms by default (falls back to the project's pyproject.toml `requires-python` floor if it pins something lower). For comment accuracy, silent-failure hunting, type-invariant design, or a simplification pass, use code-review's targeted agents instead.
+description: Reviews Python code changes for quality, correctness, and adherence to project conventions before commits or PRs. Checks for SOLID violations, DRY/YAGNI issues, missing tests, type safety, security concerns, and style compliance. Use when reviewing diffs, preparing PRs, after implementing features, or when the user asks to review code. Python-specific — covers ruff, pyright, pytest, and modern Python 3.13+ idioms by default (falls back to the project's pyproject.toml `requires-python` floor if it pins something lower). For deep silent-failure hunting or type-invariant design, use code-review's targeted agents instead.
+context: fork
+agent: general-purpose
+allowed-tools: Read, Grep, Glob, Bash
 ---
 
 # Python Code Review
@@ -12,6 +15,10 @@ Thorough code review of recent Python changes. Focuses on what matters: correctn
 1. Run `git diff` to see unstaged changes (or `git diff --cached` for staged, or `git diff main...HEAD` for full branch diff)
 2. Read the project's `CLAUDE.md` and `pyproject.toml` for conventions (ruff rules, pyright config, test config, and the `requires-python` version floor)
 3. Read each changed file in full to understand surrounding context
+4. Run the tooling on the changed files and capture the real output — don't eyeball what a tool can decide:
+   - `ruff check <changed files>` and `ruff format --check <changed files>` for lint and formatting
+   - `pyright <changed files>` (or the project's configured type checker) for type errors
+   Fold the concrete findings into the report. If a tool isn't installed or configured, note that and fall back to manual inspection.
 
 ## Step 2: Review (in priority order)
 
@@ -58,11 +65,8 @@ Thorough code review of recent Python changes. Focuses on what matters: correctn
 
 ### 2e. Style & Linting
 
-- Follows project ruff rules (check `pyproject.toml` for `[tool.ruff]` config)
-- Line length limit (typically 100 chars)
-- Import ordering (isort via ruff `I` rule)
-- Consistent naming conventions
-- No dead code introduced (unused imports, variables, functions)
+- Report the real `ruff` and `pyright` findings from Step 1 — don't re-derive lint, formatting, or type errors by eye.
+- Beyond the tools: naming consistency with the surrounding codebase, and any dead code the linter isn't configured to catch.
 
 ### 2f. Test Quality
 
@@ -73,6 +77,18 @@ Thorough code review of recent Python changes. Focuses on what matters: correctn
 - Tests cover: happy path, edge cases, error paths
 - No testing of framework behavior or trivial getters
 - Mocks only at boundaries; prefer dependency injection
+
+### 2g. Comments & Docstrings (changed lines only)
+
+- Flag comments in the diff that are stale (describe code that has since changed), redundant (restate what the code obviously does), or misleading.
+- Where a comment is worth keeping but verbose or awkward, suggest a tighter, natural, plain-language rewrite.
+- Check docstrings on added/changed modules, classes, and functions: they should state purpose (plus args/returns where non-obvious) in plain language. Simplify overcomplicated, padded, or lengthy docstrings to a concise Google-style form — a one-line summary is enough when the signature is self-explanatory.
+- Don't request new comments or docstrings on code that already reads clearly.
+
+### 2h. Simplification (brief)
+
+- Spot changed code that's more complex than it needs to be: redundant branches, needless intermediate variables, reimplemented stdlib, over-nesting.
+- Offer the simpler form in one line. Keep it light — the one or two highest-value simplifications, not a full rewrite.
 
 ## Step 3: Report
 
@@ -104,8 +120,10 @@ Output a structured review using this format:
 - Do not nitpick formatting that ruff would auto-fix.
 - Do not suggest adding comments/docstrings to code you didn't write.
 - If no issues found, say so. Don't invent problems.
-- This skill owns general quality and test coverage. For comment-rot, silent-failure
-  hunting, type-invariant design, or a simplification pass, use `code-review`'s targeted
-  agents (comment-analyzer / silent-failure-hunter / type-design-analyzer /
-  code-simplifier) instead of running both skills' general review together.
+- Be proportional — scale review depth to the size of the change. Don't write a 500-line
+  review for a 10-line diff; catalog the major issues and stop.
+- This skill owns general quality, comment clarity, light simplification, and test
+  coverage. For deep silent-failure hunting or type-invariant design, use `code-review`'s
+  targeted agents (silent-failure-hunter / type-design-analyzer) instead of duplicating
+  that depth here.
 - For the checklist, see [checklist.md](checklist.md).
