@@ -126,6 +126,34 @@ with patch("module.fn") as mock_fn:  # Don't do this
     ...
 ```
 
+- **Extract repeated literal values (int/float/str) into named constants or variables — don't repeat the same magic value across tests.**
+
+If the same literal value appears 2+ times across test cases (e.g. a threshold, a magic ID, an expected count), assign it to a module-level constant (`SCREAMING_SNAKE_CASE`) or a local variable with a name that says what it represents. This avoids silent drift when one occurrence gets updated and others don't, and makes the value's meaning explicit instead of a bare number.
+
+```python
+# BAD — same magic number repeated, meaning unclear
+def test_apply_discount_below_threshold():
+    assert apply_discount(49.99) == 49.99
+
+def test_apply_discount_at_threshold():
+    assert apply_discount(50.0) == 45.0
+
+def test_apply_discount_above_threshold():
+    assert apply_discount(75.0) == 67.5
+
+# GOOD — named constant, reused, self-documenting
+DISCOUNT_THRESHOLD = 50.0
+DISCOUNT_RATE = 0.9
+
+def test_apply_discount_below_threshold():
+    assert apply_discount(DISCOUNT_THRESHOLD - 0.01) == DISCOUNT_THRESHOLD - 0.01
+
+def test_apply_discount_at_threshold():
+    assert apply_discount(DISCOUNT_THRESHOLD) == DISCOUNT_THRESHOLD * DISCOUNT_RATE
+```
+
+This applies within `pytest.param()` cases too — if several `pytest.param()` entries share a literal (e.g. the same expected error code), pull it into a constant referenced by each `id`/value instead of retyping it.
+
 - **Extract repeated mock objects into fixtures — don't rebuild the same configured mock in every test.**
 
 If the same mock object (same patch target + same attribute/return_value setup) appears in 3+ tests, define it once as a fixture in `conftest.py`. Tests that need different behavior override locally.
