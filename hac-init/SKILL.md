@@ -32,7 +32,7 @@ When in doubt, ask the user. Don't create `.hac/` silently on the first interact
 
 These are the everyday triggers for touching `.hac/` once it's bootstrapped — not just the initial setup:
 
-- **[Most common] Right before opening a PR** — when a task is done, do the Wrap-Up steps: flip the status to ⚪ Done, move the row from `status.md` to the `README.md` master index, and append a final session log entry.
+- **[Most common] Right before opening a PR** — when a task is done, do the Wrap-Up steps: flip the status to ⚪ Done, move the row from `status.md` to the `README.md` master index, and (only if a task file exists) append a final session log entry. If the work never had a task file, do not create one now.
 - **"Record this in HAC decisions"** — the user is flagging a decision they just made. Append it to `decisions.md` (Context / Choice / Why / Rejected) and add a row to the quick reference table and `README.md`.
 - **"Set up a HAC task for X"** (e.g. "Set up a HAC task for the analytics subagent DAP integration") — for a bit-complicated or multi-step task, create `.hac/tasks/<task-name>.md` from the task template and add a row to `status.md`'s overview table to track it going forward.
 
@@ -89,7 +89,9 @@ Single-glance lookup across everything tracked in this project.
 
 ### Tasks
 
-<!-- Rows ordered newest-first by completion date -->
+<!-- Rows ordered newest-first by completion date.
+     `File` may be `—` for work that was completed without a task file —
+     never create one retroactively just to fill this column. -->
 | Task | Status | Priority | Owner | File | Updated |
 |------|--------|----------|-------|------|---------|
 | _No tasks yet_ | | | | | |
@@ -267,6 +269,7 @@ Stop and correct if you catch yourself doing any of the following:
 
 - Creating `.hac/` for a trivial one-off task
 - Pre-creating task files at scaffold time (they are on-demand only)
+- Creating a task file retroactively for work that is already complete — task files are forward-looking working memory; a done task with no file needs no file, and a wrap-up request is never a reason to create one
 - Putting `.hac/` in `.gitignore`
 - Duplicating the full task list in both `README.md` and `status.md` (README = master index of all tasks including done; status.md = dashboard of active/blocked/parked only)
 - Editing or removing past entries in `decisions.md` (it is append-only)

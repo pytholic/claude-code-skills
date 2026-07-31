@@ -78,7 +78,9 @@ If the user asks to "set up hac", "add .hac", "set up working memory", or you be
 
 ### During Execution
 
-- **New non-trivial work:** Create `.hac/tasks/<task-name>.md` using the task template from the `hac-init` skill. Add a row to the `status.md` overview table and the `README.md` master index.
+- **New non-trivial work:** *Before starting* multi-session or multi-step work, create `.hac/tasks/<task-name>.md` using the task template from the `hac-init` skill. Add a row to the `status.md` overview table and the `README.md` master index.
+
+  Task files are forward-looking working memory. Never create one for work that is already complete — a finished task with no task file gets a `status.md` → `README.md` row and nothing else. If you reach wrap-up and no task file exists, that is the correct state, not a gap to fill.
 - **Progress:** Update task file checklists as steps complete.
 - **Session log:** Append to the session log at the end of a work block.
 - **Discoveries:** Record in the Notes/Findings section of the task file.
@@ -106,7 +108,7 @@ Done is a local judgment, not an external approval. `.hac/` does not mirror PR/r
 ### Wrap-Up
 
 - Update the task row in `status.md` overview table (status → ⚪, add date).
-- Move the completed row to the `README.md` master index.
-- Update the task file's metadata table status to `⚪ Done (YYYY-MM-DD)`.
-- Append a final session log entry.
+- Move the completed row to the `README.md` master index. If the work never had a task file, use `—` in the `File` column.
+- **If a task file exists:** set its metadata table status to `⚪ Done (YYYY-MM-DD)` and append a final session log entry.
+- **If no task file exists:** stop here. Do not create one.
 ````
