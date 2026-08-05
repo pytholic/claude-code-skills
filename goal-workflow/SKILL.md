@@ -1,9 +1,9 @@
 ---
 name: goal-workflow
-description: Implement a spec fully, verify each requirement with parallel agents, and produce a report. Use whenever the user runs /goal-workflow, mentions "implement spec", "verify against spec", or wants to go from requirements to verified implementation in one shot. Even if the request seems simple, invoke this skill — it handles both small and large specs.
+description: Implement a spec fully, check each requirement off against the implementation, and produce a report. Use whenever the user runs /goal-workflow, mentions "implement spec", "verify against spec", or wants to go from requirements to verified implementation in one shot. Even if the request seems simple, invoke this skill — it handles both small and large specs.
 ---
 
-You are running the goal-workflow skill. Your job: implement a spec fully, verify each requirement, report results.
+You are running the goal-workflow skill. Your job: implement a spec fully, check each requirement off, report results.
 
 ## Step 1 — Get the spec
 
@@ -26,9 +26,15 @@ If the spec is ambiguous on any point, ask before starting — not mid-implement
 
 Work through each requirement in order. Check it off as you go. Keep changes focused; don't add anything not in the spec.
 
-## Step 4 — Verify with a workflow
+## Step 4 — Check the spec off
 
-After implementation, use the `Workflow` tool to verify in parallel. One agent per requirement:
+Walk the numbered requirements and confirm each one is satisfied, citing the file, function,
+or test that satisfies it. Run the project's tests, type checker, and linter — those are the
+acceptance check. Do this yourself in the main context; don't spawn an agent per requirement.
+
+**Exception — large specs.** For a spec with roughly a dozen or more requirements that are
+genuinely independent of one another, fanning out is worth the cost. Only then, use the
+`Workflow` tool below. Keep the agent count to one per requirement, never more.
 
 ```js
 export const meta = {

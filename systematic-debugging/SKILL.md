@@ -22,13 +22,12 @@ When in doubt, default to the full framework — it costs minutes but saves hour
 
 ## Cross-Skill Integration
 
-This is a methodology skill. The steps below involve writing tests, implementing code, and reviewing changes. For each of these activities, check whether a relevant skill exists in the current project and apply it. If no matching skill is found, follow the inline guidance provided.
+This is a methodology skill. The steps below involve writing tests and implementing code. For each of these activities, check whether a relevant skill exists in the current project and apply it. If no matching skill is found, follow the inline guidance provided.
 
 1. **Writing Reproduction Tests**: Look for any skill related to testing conventions, test authoring, or test structure. Apply its rules when writing the failing test case. If none exists: write a minimal, isolated test that fails on the current bug and passes on the correct behavior. Prefer parameterized tests for boundary conditions. Name tests descriptively so the failure message explains the bug.
 
 2. **Implementing the Fix**: Look for any skill related to the language or framework being used (e.g., a Python development skill, a TypeScript conventions skill, etc.). Apply its style rules, typing expectations, and structural constraints when writing the fix. If none exists: follow the project's established conventions — use explicit types, keep functions focused and short, apply SOLID principles, and match the existing code style.
 
-3. **Verifying the Fix**: Look for any skill related to code review, PR review, or change validation. Apply its checklist to your own changes before declaring the bug fixed. If none exists: re-read your own diff critically — check for unhandled edge cases, regressions in adjacent behavior, style violations, and missing test coverage for the fix.
 
 ## The Four-Phase Framework
 
@@ -88,7 +87,8 @@ Stop immediately if you catch yourself doing any of the following:
 
 ## Pre-Completion Checklist
 
-Before declaring a bug fixed, verify both process compliance and correctness:
+The test run is the acceptance check — don't add a separate review pass on top of it. Before
+declaring a bug fixed, confirm process compliance and correctness:
 
 **Process compliance:**
 - [ ] Reproduction test was created before any fix was attempted
@@ -99,4 +99,3 @@ Before declaring a bug fixed, verify both process compliance and correctness:
 - [ ] Root cause was fixed at its origin, not patched at the symptom
 - [ ] Reproduction test now passes
 - [ ] Full test suite passes with no new failures
-- [ ] Self-review of the diff was performed (or a code review skill was applied)

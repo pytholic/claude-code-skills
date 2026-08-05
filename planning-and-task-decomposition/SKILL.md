@@ -74,12 +74,9 @@ approving its neighbor.
 Arrange tasks so dependencies are satisfied and the system builds/tests green after
 every task. Insert a checkpoint after every 2–3 tasks and at phase boundaries.
 
-### 6. Self-review the plan (before presenting)
-- **Coverage:** every spec requirement maps to a task; list gaps.
-- **Placeholder scan:** no "TBD", "handle edge cases", "add validation",
-  "similar to Task N". Fix inline.
-- **Consistency:** names, signatures, and paths used in later tasks match what earlier
-  tasks define.
+### 6. Map coverage (before presenting)
+Every spec requirement maps to a task — list any that don't. This is a coverage check
+against the spec, not a re-read of the plan.
 
 ## Task contract
 
@@ -153,12 +150,11 @@ offer to help per task, in whatever mode you ask for:
 - **Write tests** — the agent adds tests for a task per the project's test conventions.
 
 ### Implementation loop (agent-driven tasks)
-Whenever the agent implements a task (or the whole plan) itself, always run it through
-`goal-workflow` (implement a spec fully and verify each requirement with parallel
-agents, then report pass/fail) — pass the task's acceptance criteria (or the full task
-list, for whole-feature runs) as its spec input. This replaces ad hoc self-checking:
-functional correctness and requirement coverage are verified by construction, with a
-report you can skim. No separate self-review step is needed.
+Whenever the agent implements a task (or the whole plan) itself, run it through
+`goal-workflow` (implement a spec fully, check each requirement off, report pass/fail) —
+pass the task's acceptance criteria (or the full task list, for whole-feature runs) as its
+spec input. This replaces ad hoc self-checking: requirement coverage comes back as a report
+you can skim. No separate self-review step is needed.
 
 Quality review is a deliberate second step, not automatic. Once `goal-workflow` reports
 the acceptance criteria satisfied, trigger `python-code-review` (personal rules: SOLID,

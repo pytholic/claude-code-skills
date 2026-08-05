@@ -103,7 +103,7 @@ def user() -> User:
 
 ## Standards
 
-- Python 3.12+ type hints (`str | None`)
+- Python 3.13+ type hints (`str | None`) — or the project's `requires-python` floor if lower
 - AAA pattern (Arrange-Act-Assert)
 - ALWAYS use `pytest.param()` with descriptive `id` parameter
 - Parametrize similar cases (avoid copy-paste tests)

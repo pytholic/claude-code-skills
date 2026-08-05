@@ -115,13 +115,16 @@ Output a structured review using this format:
 
 ## Rules
 
+- Apply every rule below to **each** changed file, not a representative sample.
 - Review ONLY changed code. Do not critique pre-existing code unless the change makes it worse.
+- Report anything that could cause incorrect behavior, a test failure, a security issue, or a
+  misleading result. Omit only pure style and naming nits that ruff already catches or that are
+  preference-level. Sort what remains into the Critical / Warnings / Suggestions tiers — the
+  tiers do the filtering, not you.
 - Be specific: reference exact file and line, show the problematic code, show the fix.
 - Do not nitpick formatting that ruff would auto-fix.
 - Do not suggest adding comments/docstrings to code you didn't write.
 - If no issues found, say so. Don't invent problems.
-- Be proportional — scale review depth to the size of the change. Don't write a 500-line
-  review for a 10-line diff; catalog the major issues and stop.
 - This skill owns general quality, comment clarity, light simplification, and test
   coverage. For deep silent-failure hunting or type-invariant design, use `code-review`'s
   targeted agents (silent-failure-hunter / type-design-analyzer) instead of duplicating

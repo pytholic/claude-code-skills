@@ -39,7 +39,7 @@ Before any design work, answer these questions:
 4. **What are the edge cases?** Empty inputs, concurrent access, failure modes, missing data.
 5. **What does "done" look like?** Acceptance criteria — how do we know this works?
 
-If any answer is unclear, ask before proceeding.
+Make routine calls yourself and state the assumption. Ask only when two readings of the requirement would lead to materially different designs.
 
 ---
 
@@ -95,7 +95,7 @@ Dependencies flow inward: infrastructure → services → core. Core never impor
 ### Implementation Standards
 
 - **Functions under 30 lines.** If longer, decompose.
-- **Type hints everywhere** using Python 3.12+ syntax (`str | None`, not `Optional[str]`).
+- **Type hints everywhere** using Python 3.13+ syntax (`str | None`, not `Optional[str]`) — or the project's `requires-python` floor if lower.
 - **PEP compliance** — follow project ruff and pyright config in `pyproject.toml`.
 - **Explicit over implicit, flat over nested.**
 - **Generators** for memory efficiency on large data.
@@ -119,20 +119,16 @@ Dependencies flow inward: infrastructure → services → core. Core never impor
 
 ---
 
-## Phase 4: Verify
+## Phase 4: Check
 
-### Self-Review Checklist
+The acceptance check is the tooling: `ruff check` and `pyright` pass clean on the changed
+files, and new behavior has tests that pass. Run them. Don't add a separate self-review
+pass on top — for a deliberate quality review, invoke the `python-code-review` skill as its
+own step.
 
-Before declaring the feature complete:
-
-- [ ] All public interfaces have type hints and docstrings
-- [ ] Functions are under 30 lines
-- [ ] No circular imports between modules
-- [ ] Dependencies flow inward (infrastructure → services → core)
-- [ ] Error handling is specific, not broad
-- [ ] New behavior has corresponding tests
-- [ ] `ruff check` and `pyright` pass clean
-- [ ] Design rationale is documented (in PR description or ADR)
+The structural constraints (typed public interfaces, functions under 30 lines, no circular
+imports, dependencies flowing inward, specific exception handling) are things to get right
+while implementing in Phase 3, not a checklist to re-walk afterwards.
 
 ### Testing
 
