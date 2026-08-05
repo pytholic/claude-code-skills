@@ -1,10 +1,10 @@
 ---
 name: write-tests
-description: Write focused pytest tests covering critical paths, edge cases, and error handling. Avoids redundant tests that bloat codebase. Use for creating minimal but comprehensive test coverage of complex logic, public APIs, and failure scenarios.
+description: Write focused pytest tests covering critical paths, edge cases, and error handling. Avoids redundant tests that bloat codebase. Invoke this skill any time the user asks for tests to be written — including brief or casual phrasing like "write tests", "add tests for this", or "write important tests" — rather than writing tests inline directly. Also invoke it as a step within a larger multi-part request (e.g. implement-then-test-then-review workflows), even without an explicit /write-tests call.
 arguments:
   - name: target
-    description: File path to test (e.g., "src/module.py") or code string to write tests for
-    required: true
+    description: File path to test (e.g., "src/module.py") or code string to write tests for. If omitted, infer it from context — the file(s) just implemented or most recently changed in this session.
+    required: false
   - name: focus
     description: Test focus - "critical" (default, core logic only), "full" (include edge cases), or "integration"
     required: false
@@ -13,6 +13,10 @@ arguments:
 # Pytest Test Writing - Focused & Valuable
 
 Write minimal, high-value tests. Avoid testing trivial code, framework behavior, or implementation details.
+
+## Step 0: Resolve the target
+
+If `target` wasn't given: use the file(s) just implemented or edited earlier in this session (check recent diffs / tool calls). If more than one file changed and it's not obvious which one needs coverage, ask which file(s) to target — don't guess silently across an ambiguous multi-file change.
 
 ## What to Test (Priority Order)
 
