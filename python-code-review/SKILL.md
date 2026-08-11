@@ -47,7 +47,26 @@ Thorough code review of recent Python changes. Focuses on what matters: correctn
 
 **DRY** — Flag duplicated logic (3+ occurrences). Do NOT flag intentional similarity in tests.
 
-**YAGNI** — Flag speculative abstractions, unused parameters, configurability nobody asked for.
+**YAGNI / minimality** — Judge every added abstraction against the minimality ladder below and name the rung that should have caught it. Naming the rung is the finding — it makes the fix obvious and keeps review and implementation speaking one language. Also flag unused parameters and configurability nobody asked for. Never flag the never-traded-away items as over-engineering.
+
+<!-- BEGIN shared: minimality-ladder -->
+Before writing code, stop at the first rung that holds:
+
+1. Does this need to exist? → no: don't build it
+2. Already in this codebase? → reuse, don't rewrite
+3. Stdlib does it? → use it
+4. Native platform feature? → use it
+5. Installed dependency? → use it
+6. One line? → one line
+7. Only then: the minimum that works
+
+Walk the ladder *after* understanding the problem, not instead of it — read the code the
+change touches and trace the real flow before picking a rung. Lazy about the solution,
+never about reading.
+
+**Never traded away, at any rung:** trust-boundary validation, data-loss handling,
+security, accessibility. Code ends up small because it's necessary, not golfed.
+<!-- END shared: minimality-ladder -->
 
 **KISS** — Flag unnecessary complexity. If 50 lines can replace 200, say so.
 

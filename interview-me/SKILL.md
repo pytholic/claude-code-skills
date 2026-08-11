@@ -61,31 +61,15 @@ GUESS: <your hypothesis for the answer, with the reasoning that produced it>
 
 Wait for the user to react before asking the next question.
 
-**Why one at a time, not a batch:**
+Batching buries your hypotheses, invites skim-reading, and locks in a framing before the first answer can change it. The guess matters because reacting is faster than generating from scratch, and it exposes *your* assumptions — which is the point of the exercise.
 
-- The user can't react to your hypotheses if you bury them in a list
-- Batches encourage skim-reading and surface answers
-- The third question often depends on the answer to the first; asking them all at once locks in the wrong framing
-- The user's energy for thinking carefully is finite; spend it one question at a time
-
-**Why attach a guess:**
-
-- The user reacts faster to a wrong guess than they generate an answer from scratch
-- It commits you to a hypothesis you can be visibly wrong about, which keeps you honest
-- It surfaces *your* assumptions, which is what the interview is meant to expose
-
-The risk here is a polite user agreeing with your guess to be agreeable. Mitigate by being visibly willing to be wrong, and occasionally guess in a direction you expect the user to push back on.
+The risk is a polite user agreeing to be agreeable. Mitigate by being visibly willing to be wrong, and occasionally guess where you expect pushback.
 
 ### Step 3: Listen for "want vs. should want"
 
-The most dangerous answers are the ones where the user says what a thoughtful answer *sounds like* rather than what they actually want. Watch for:
+The most dangerous answers sound like a thoughtful answer rather than a true one. Watch for best-practice talk without specifics ("scalable", "clean architecture"), deference to convention ("the standard approach"), and "I should probably…".
 
-- Answers that pattern-match best-practice talk ("I want it to be scalable", "clean architecture") without specifics
-- Answers that defer to convention ("the way most apps do it", "the standard approach")
-- Phrases like "I should probably…", "I think I'm supposed to…", "good engineering practice says…"
-- Buzzwords as goals — when "modern", "scalable", "robust" are the answer instead of a specific outcome
-
-When you hear these, the question to ask is:
+When you hear one, ask:
 
 > *"If you didn't have to justify this to anyone, what would you actually want?"*
 
@@ -135,67 +119,27 @@ This is a checkable test, not a vibe. It also has a floor: if you've gone severa
 
 The output of this skill is a **confirmed statement of intent**: the restate from Step 4, with an explicit yes from Step 5. That's the deliverable. Specs, plans, and task lists are downstream; they consume the intent this skill produces.
 
-If the user wants the intent to persist (a multi-session project, a handoff to another collaborator), offer to save it to `.claude/plans/intent-[topic].md`, or to the project's `.hac/` working memory if one exists. Only save if they confirm.
+If the user wants the intent to persist (a multi-session project, a handoff to another collaborator), offer to save it to `.claude/plans/intent-[topic].md`. Only save if they confirm.
 
-## Example
+## Downstream
 
-A short before-and-after.
+`task-scope-and-spec` turns confirmed intent into testable requirements;
+`planning-and-task-decomposition` orders them into a plan; `guided-implementation` (you
+write the code) or `goal-workflow` (the agent does) executes it. Frame any handoff in terms
+of the confirmed intent, never the original underspecified ask.
 
-**Without `interview-me`:**
-
-```
-User:  build me a dashboard for our metrics
-Agent: <starts proposing chart libraries and layouts>
-```
-
-The agent has assumed: who it's for, what metrics, what "for our team" means, what success looks like. None of these are stated. Every assumption is a place the user can later say "that's not what I meant."
-
-**With `interview-me`:**
-
-```
-User: build me a dashboard for our metrics
-
-Agent:
-HYPOTHESIS: You want a way to answer "how are we doing?" in standup, and "dashboard" came to mind because that's the conventional answer.
-CONFIDENCE: ~30% — missing: who it's for, what "metrics" are, and what success looks like
-
-Q:     When you say "how are we doing?", who's asking — you alone, the engineering team in standup, or up the chain (e.g., your manager, an exec, a board)?
-GUESS: engineering team in standup, because "we" usually scopes that way and standups are where this question gets asked. If it's for execs the metrics and the framing change a lot.
-
-User: It's actually for me. I keep losing track of which experiments are running and what their early signal looks like.
-
-Agent:
-Updated read: not a team dashboard at all. It's a personal experiment tracker. Confidence: ~60% — still missing: what "early signal" means and what done looks like.
-
-Q:     Is the gap that you don't know which experiments exist, or that you can't see their results in one place?
-GUESS: the second one. You have a list of experiments somewhere, but their results live in five different tools, and reconciling them by hand is what you're tired of.
-
-User: First one actually. I literally don't have a list. They're spread across different docs.
-
-Agent: <continues>
-```
-
-Two questions in, the agent has discovered the actual ask isn't "a dashboard." It's "a list." Different artifact, different scope, different work. The dashboard would have been wrong.
-
-## Interaction with Other Skills
-
-- **`superpowers:brainstorming`**: downstream. If the confirmed intent is "I want X but I don't know how to scope it," hand off to brainstorming to explore approaches against the now-explicit intent.
-- **`superpowers:writing-plans`**: downstream. If the confirmed intent is concrete ("I want X for Y users with Z success criteria"), hand off to writing-plans to turn it into a step-by-step plan.
-- **`goal-workflow`**: two hops downstream (after the plan) — turns the plan into verified implementation.
-- **`codebase-research`**: orthogonal. Interview-me clarifies what the user wants; codebase-research finds where the relevant code lives. They don't compete.
+`codebase-research` is orthogonal — it finds where code lives, not what the user wants.
 
 ## Common Rationalizations
 
 | Rationalization | Reality |
 |---|---|
-| "The ask is clear enough" | If you can't write the user's desired outcome in one sentence right now, the ask isn't clear. Run Step 1 before deciding. |
-| "Asking too many questions wastes their time" | Time wasted by 4–6 targeted questions is small. Time wasted by building the wrong thing is enormous, and the user is the one bearing that cost. |
-| "I'll figure it out as I build" | Switching costs after code exists are 10x what they are now. Discovery during implementation is rework. |
-| "They said 'whatever you think,' so I should just decide" | "Whatever you think" is delegation, not decision. Re-ask with two concrete options as a choice. |
-| "I should give them several options to pick from" | Options work when the user knows what they want and is choosing between trade-offs. They don't know what they want yet. Listing options widens the search; asking narrows it. |
-| "If I attach my guess, I'm leading them" | Leading is the point. Reacting is faster than generating from scratch. The risk is sycophancy, not leading; mitigate by being visibly willing to be wrong. |
-| "We've talked enough, I get it" | Test it: can you predict their reaction to the next three questions? If not, you don't get it yet. |
-| "The user said yes, we're done" | If the yes followed a vague restate or an open-ended "sounds good," the yes is hollow. Restate concretely and re-confirm. |
+| "The ask is clear enough" | If you can't write the desired outcome in one sentence right now, it isn't. |
+| "Questions waste their time" | Four to six questions is cheap. Building the wrong thing isn't, and they bear that cost. |
+| "I'll figure it out as I build" | Discovery during implementation is rework at 10x the price. |
+| "I should offer options instead" | Options work when they know what they want. They don't yet — asking narrows, listing widens. |
+| "Attaching my guess leads them" | Leading is the point. The risk is sycophancy; mitigate by being willing to be wrong. |
+| "We've talked enough" | Test it: can you predict their reaction to the next three questions? |
 
 ## Red Flags
 
@@ -209,16 +153,3 @@ Two questions in, the agent has discovered the actual ask isn't "a dashboard." I
 - A confidence number below ~70% with no reason attached: the user can't help close the gap if they don't know what's missing
 - Saving the intent doc before the user has confirmed (the doc itself implies a yes the user didn't give)
 - Skipping the "Out of scope" line in the restate (silent disagreement about non-goals is half of misalignment)
-
-## Verification
-
-After applying interview-me:
-
-- [ ] An explicit hypothesis with a confidence number was stated in the first turn
-- [ ] Every confidence number below ~70% was accompanied by a one-line reason (what's still unresolved or missing)
-- [ ] Questions were asked one at a time, each with the agent's guess attached
-- [ ] At least one "what would you actually want if you didn't have to justify it?" probe ran when the user gave a sophistication-signaling or convention-signaling answer
-- [ ] A concrete restate (Outcome / User / Why now / Success / Constraint / Out of scope) was written back to the user
-- [ ] The user confirmed the restate with an explicit yes (not "whatever you think," not "sounds good," not silence)
-- [ ] At the stop point, the agent could predict reactions to the next three questions it would ask
-- [ ] Any handoff to a downstream skill (`superpowers:brainstorming`, `superpowers:writing-plans`, `goal-workflow`) was framed in terms of the confirmed intent, not the original underspecified ask

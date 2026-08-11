@@ -144,6 +144,10 @@ offer to help per task, in whatever mode you ask for:
 - **Implement (a task, or the whole plan if small)** — the agent runs it through the
   Implementation loop below; scale (one task's criteria vs. the full task list) is your
   call.
+- **Guide me while I implement it** — you write the code; the agent gives one piece per
+  turn with the design decision it forces, then reviews what you wrote. Use
+  `guided-implementation` (owner: me/pair). This is the default for tasks marked
+  `Owner: me`.
 - **Review my code** — the agent reviews a part you wrote. For anything substantial,
   use the dedicated review skill (`python-code-review`: SOLID / correctness / security /
   style / tests, with a verdict) rather than reviewing ad hoc.

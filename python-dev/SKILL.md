@@ -47,7 +47,28 @@ Make routine calls yourself and state the assumption. Ask only when two readings
 
 ### 2a. Architecture Decision
 
-Select the right level of abstraction:
+**The ladder comes first.** Rungs 1–6 mean there is no architecture decision to make — don't build it, reuse it, or use what exists. Everything in this phase applies only once the ladder has reached rung 7.
+
+<!-- BEGIN shared: minimality-ladder -->
+Before writing code, stop at the first rung that holds:
+
+1. Does this need to exist? → no: don't build it
+2. Already in this codebase? → reuse, don't rewrite
+3. Stdlib does it? → use it
+4. Native platform feature? → use it
+5. Installed dependency? → use it
+6. One line? → one line
+7. Only then: the minimum that works
+
+Walk the ladder *after* understanding the problem, not instead of it — read the code the
+change touches and trace the real flow before picking a rung. Lazy about the solution,
+never about reading.
+
+**Never traded away, at any rung:** trust-boundary validation, data-loss handling,
+security, accessibility. Code ends up small because it's necessary, not golfed.
+<!-- END shared: minimality-ladder -->
+
+Then select the right level of abstraction:
 
 - **Simple function** — No state, no side effects, pure transformation → standalone function
 - **Stateful component** — Manages internal state, lifecycle → class
@@ -71,7 +92,7 @@ Apply when complexity justifies — never introduce a pattern for a problem that
 
 ### 2c. Module Layout
 
-Follow a layered structure within the package:
+For a package that has earned one — not a default, and not a target to grow into. A single module is the right answer until it isn't:
 
 ```
 package/
